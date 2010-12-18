@@ -61,9 +61,9 @@ while (1) {
             $yomi = encode_utf8 join "\n", split '', decode_utf8 $yomi;
 
             my (undef, $y0, undef, undef, undef, $y1) = $gd->stringFT($white, $font, $size, 0, 0, 0, $yomi);
-            my $y = (($HEIGHT - ($y1 - $y0)) / 2);
+            my $y = (($HEIGHT - ($y0 - $y1)) / 2) + 20;
 
-            #$gd->stringFT($black, $font, $size, 0, 400, $y, $yomi);
+            $gd->stringFT($black, $font, $size, 0, 350, $y, $yomi);
         }
     };
 
