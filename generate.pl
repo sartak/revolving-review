@@ -57,6 +57,7 @@ while (1) {
 
         if ($yomi) {
             my $font = '/Library/Fonts/Hiragino Sans GB W3.otf';
+            $size = 10 if length(decode_utf8 $yomi) > 5;
             $yomi = encode_utf8 join "\n", split '', decode_utf8 $yomi;
 
             my (undef, $y0, undef, undef, undef, $y1) = $gd->stringFT($white, $font, $size, 0, 0, 0, $yomi);
