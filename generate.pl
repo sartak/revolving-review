@@ -12,6 +12,9 @@ my $query = "select fields.value from fields join fieldModels on (fieldModels.id
 system("cp ~/Documents/Anki/Japanese.anki ~/tmp/japanese-$$.anki");
 open my $results, qq{echo "$query" | sqlite3 ~/tmp/japanese-$$.anki |};
 
+system 'rm -rf kanji/';
+mkdir 'kanji';
+
 my $WIDTH = 460;
 my $HEIGHT = 220;
 
