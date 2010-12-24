@@ -8,10 +8,11 @@ use utf8;
 
 my $query = "select fields.value from fields join fieldModels on (fieldModels.id = fields.fieldModelId) join models on (fieldModels.modelId = models.id) join facts on (facts.id = fields.factId) where models.tags like '%kanji%' and (fieldModels.name='漢字' or fieldModels.name='英語' or fieldModels.name='読み') order by facts.created, fieldModels.ordinal ASC;";
 
-system("cp ~/Documents/Anki/Japanese.anki ~/tmp/japanese-$$.anki");
-END { unlink "$ENV{HOME}/tmp/japanese-$$.anki" }
+my $db = "$ENV{HOME}/tmp/japanese-$$.anki";
+system("cp ~/Documents/Anki/Japanese.anki $db");
+END { unlink $db }
 
-open my $results, qq{echo "$query" | sqlite3 ~/tmp/japanese-$$.anki |};
+open my $results, qq{echo "$query" | sqlite3 $db |};
 
 binmode(\*STDOUT, ':utf8');
 binmode($results, ':utf8');
