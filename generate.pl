@@ -31,6 +31,8 @@ while (1) {
     defined(my $yomi    = <$results>) or last;
     chomp for $meaning, $kanji, $yomi;
 
+    # the dimensions of my frame, but there are some borders so it's not
+    # $HEIGHT and $WIDTH
     my $gd = GD::Image->new(480, 234);
     my $white = $gd->colorAllocate(255, 255, 255);
     $gd->rectangle(0, 0, 480, 234, $white);
