@@ -70,19 +70,22 @@ while (1) {
         }
     };
 
+    # SD cards (because of fat-16 or something?) seem to be able to fit only
+    # about 170 files in a single directory, so spread them out my digital
+    # photo frame shows the pictures sorted by filename, so randomize that too
     my $dir = 'kanji/' . int(rand(160));
     mkdir $dir;
     my $file = "$dir/".int(rand(100000)).".jpg";
     open my $handle, '>', $file;
     binmode $handle;
-    print $handle $gd->jpeg(100);
+    print $handle $gd->jpeg(100); # 100% quality. device doesn't support png!
     close $handle;
 
     if ($yomi) {
-        print "\e[1;32m";
+        print "\e[1;32m"; # green
     }
     print $kanji;
-    print "\e[m";
+    print "\e[m"; # reset
 }
 
 print "\n";
