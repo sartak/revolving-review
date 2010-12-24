@@ -80,3 +80,6 @@ while (1) {
     print $kanji;
     print "\e[m";
 }
+
+print "\n";
+
