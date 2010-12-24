@@ -60,13 +60,28 @@ while (1) {
 
         if ($yomi) {
             my $font = '/Library/Fonts/Hiragino Sans GB W3.otf';
-            $size = 10 if length(decode_utf8 $yomi) > 5;
-            $yomi = encode_utf8 join "\n", split '', decode_utf8 $yomi;
 
-            my (undef, $y0, undef, undef, undef, $y1) = $gd->stringFT($white, $font, $size, 0, 0, 0, $yomi);
-            my $y = (($HEIGHT - ($y0 - $y1)) / 2) + 20;
+            my $line = $yomi;
+            $line =~ s/ の .*//; # I only know a compound word
 
-            $gd->stringFT($black, $font, $size, 0, 350, $y, $yomi);
+            my ($compound, $component) = $yomi =~ /(.*) の (.*)/;
+
+            # now that we're done munging text, make everything vertical
+
+            $_ = join "\n", split '', $_ || ''
+                for $line, $yomi, $compound, $component;
+
+            my (undef, $y0, undef, undef, undef, $y1) = $gd->stringFT($white, $font, $size, 0, 0, 0, $line);
+            my $y = (($HEIGHT - ($y0 - $y1)) / 2) + 30;
+
+            if ($compound && $component) {
+                $gd->stringFT($black, $font, $size, 0, 350, $y,      $compound);
+                $gd->stringFT($black, $font,    10, 0, 330, $y - 5, "の");
+                $gd->stringFT($black, $font, $size, 0, 320, $y + 28, $component);
+            }
+            else {
+                $gd->stringFT($black, $font, $size, 0, 350, $y, $yomi);
+            }
         }
     };
 
