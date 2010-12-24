@@ -26,7 +26,6 @@ while (1) {
     defined(my $kanji   = <$results>) or last;
     defined(my $yomi    = <$results>) or last;
     chomp for $meaning, $kanji, $yomi;
-    print $kanji;
 
     my $gd = GD::Image->new(480, 234);
     my $white = $gd->colorAllocate(255, 255, 255);
@@ -74,4 +73,10 @@ while (1) {
     binmode $handle;
     print $handle $gd->jpeg(100);
     close $handle;
+
+    if ($yomi) {
+        print "\e[1;32m";
+    }
+    print $kanji;
+    print "\e[m";
 }
