@@ -4,7 +4,6 @@ use warnings;
 use GD;
 use GD::Simple;
 use Lingua::JA::Heisig 'heisig_number';
-use Encode;
 use utf8;
 
 my $query = "select fields.value from fields join fieldModels on (fieldModels.id = fields.fieldModelId) join models on (fieldModels.modelId = models.id) join facts on (facts.id = fields.factId) where models.tags like '%kanji%' and (fieldModels.name='漢字' or fieldModels.name='英語' or fieldModels.name='読み') order by facts.created, fieldModels.ordinal ASC;";
@@ -13,6 +12,9 @@ system("cp ~/Documents/Anki/Japanese.anki ~/tmp/japanese-$$.anki");
 END { unlink "$ENV{HOME}/tmp/japanese-$$.anki" }
 
 open my $results, qq{echo "$query" | sqlite3 ~/tmp/japanese-$$.anki |};
+
+binmode(\*STDOUT, ':utf8');
+binmode($results, ':utf8');
 
 system 'rm -rf kanji/';
 mkdir 'kanji';
@@ -52,7 +54,7 @@ while (1) {
         $gd->stringFT($black, $font, $size, 0, $x, 180, $meaning);
 
         # number
-        if (my $heisig = heisig_number(decode_utf8 $kanji)) {
+        if (my $heisig = heisig_number($kanji)) {
             $gd->stringFT($black, $font, $size, 0, 40, 30, "#$heisig");
         }
 
