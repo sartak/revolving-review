@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 use GD;
-use GD::Simple;
 use Lingua::JA::Heisig 'heisig_number';
 use utf8;
 
